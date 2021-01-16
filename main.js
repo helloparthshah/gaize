@@ -192,12 +192,18 @@ function fitModel() {
     if (currentModel == null) {
         currentModel = createModel();
     }
-
+    let n = 0;
     currentModel.fit(dataset.train.x, dataset.train.y, {
         batchSize: batchSize,
         epochs: 20,
         shuffle: true,
         validationData: [dataset.val.x, dataset.val.y],
+        callbacks: {
+            onEpochEnd: async function(epoch, logs) {
+                n++;
+                $('#status').text(n + '/20');
+            }
+        }
     }).then(info => {
         alert('Done')
     });
