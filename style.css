@@ -28,17 +28,14 @@
 }
 
 #target {
-    background-color: lightgreen;
+    background-color: rgba(0, 0, 0, 0.2);
     position: absolute;
     border-radius: 50%;
     height: 40px;
     width: 40px;
-    transition: all 0.1s ease;
-    box-shadow: 0 0 20px 10px white;
-    border: 4px solid rgba(0, 0, 0, 0.5);
+    /* transition: all 0.01s ease-in-out; */
 }
 
-#webcam,
 #overlay {
     position: absolute;
     top: 0;
@@ -46,7 +43,7 @@
 }
 
 #eyes {
-    position: absolute;
+    /* position: absolute; */
     top: 0;
-    right: 0;
+    /* right: 0; */
 }
