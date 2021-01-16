@@ -198,8 +198,9 @@ function fitModel() {
         epochs: 20,
         shuffle: true,
         validationData: [dataset.val.x, dataset.val.y],
+    }).then(info => {
+        alert('Done')
     });
-    alert('Done');
 }
 
 $('#train').click(function() {
@@ -231,4 +232,4 @@ function moveTarget() {
     });
 }
 
-setInterval(moveTarget, 100);
+setInterval(moveTarget, 10);
