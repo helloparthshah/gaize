@@ -1,11 +1,27 @@
-video {
-    /* -webkit-transform: scaleX(-1);
-    transform: scaleX(-1); */
-}
+/* video {
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+} */
 
 #train {
     position: absolute;
     top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 24pt;
+}
+
+#nt {
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 24pt;
+}
+
+#nv {
+    position: absolute;
+    top: 60%;
     left: 50%;
     transform: translate(-50%, -50%);
     font-size: 24pt;

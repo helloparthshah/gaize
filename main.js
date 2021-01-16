@@ -114,7 +114,10 @@ function captureExample() {
         // Increase counter
         subset.n += 1;
     });
-    console.log(dataset)
+
+    $('#nt').text(dataset['train']['n']);
+    $('#nv').text(dataset['val']['n']);
+
 }
 
 $('body').keyup(function(event) {
@@ -196,7 +199,7 @@ function fitModel() {
         shuffle: true,
         validationData: [dataset.val.x, dataset.val.y],
     });
-    console.log("Done!")
+    alert('Done');
 }
 
 $('#train').click(function() {
