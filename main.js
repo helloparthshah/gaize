@@ -64,3 +64,79 @@ function getEyesRectangle(positions) {
 
     return [minX, minY, width, height];
 }
+
+function getImage() {
+    // Capture the current image in the eyes canvas as a tensor.
+    return tf.tidy(function() {
+        const image = tf.browser.fromPixels($('#eyes')[0]);
+        // Add a batch dimension:
+        const batchedImage = image.expandDims(0);
+        // Normalize and return it:
+        return batchedImage.toFloat().div(tf.scalar(127)).sub(tf.scalar(1));
+    });
+}
+
+const dataset = {
+    train: {
+        n: 0,
+        x: null,
+        y: null,
+    },
+    val: {
+        n: 0,
+        x: null,
+        y: null,
+    },
+}
+
+function captureExample() {
+    // Take the latest image from the eyes canvas and add it to our dataset.
+    tf.tidy(function() {
+        const image = getImage();
+        const mousePos = tf.tensor1d([mouse.x, mouse.y]).expandDims(0);
+
+        // Choose whether to add it to training (80%) or validation (20%) set:
+        const subset = dataset[Math.random() > 0.2 ? 'train' : 'val'];
+
+        if (subset.x == null) {
+            // Create new tensors
+            subset.x = tf.keep(image);
+            subset.y = tf.keep(mousePos);
+        } else {
+            // Concatenate it to existing tensors
+            const oldX = subset.x;
+            const oldY = subset.y;
+
+            subset.x = tf.keep(oldX.concat(image, 0));
+            subset.y = tf.keep(oldY.concat(mousePos, 0));
+        }
+
+        // Increase counter
+        subset.n += 1;
+    });
+    console.log(dataset)
+}
+
+$('body').keyup(function(event) {
+    // On space key:
+    if (event.keyCode == 32) {
+        captureExample();
+
+        event.preventDefault();
+        return false;
+    }
+});
+
+// Track mouse movement:
+const mouse = {
+    x: 0,
+    y: 0,
+
+    handleMouseMove: function(event) {
+        // Get the mouse position and normalize it to [-1, 1]
+        mouse.x = (event.clientX / $(window).width()) * 2 - 1;
+        mouse.y = (event.clientY / $(window).height()) * 2 - 1;
+    },
+}
+
+document.onmousemove = mouse.handleMouseMove;
