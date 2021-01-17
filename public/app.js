@@ -366,7 +366,7 @@ function onPlayerStateChange(event) {
         var r1 = Math.random() * 26
         var r2 = Math.random() * 56 + 30
 
-        console.log(r)
+        console.log(r1, r2)
         setTimeout(() => {
             show()
         }, r1 * 1000)
