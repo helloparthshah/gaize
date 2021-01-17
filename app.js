@@ -1,57 +1,56 @@
-$(document).ready(function() {
-    const video = $('#webcam')[0];
-    const ctrack = new clm.tracker();
-    ctrack.init();
+const video = $('#webcam')[0];
+const ctrack = new clm.tracker();
+ctrack.init();
 
-    const overlay = $('#overlay')[0];
-    const overlayCC = overlay.getContext('2d');
+const overlay = $('#overlay')[0];
+const overlayCC = overlay.getContext('2d');
 
-    function trackingLoop() {
+function trackingLoop() {
 
-        requestAnimationFrame(trackingLoop);
+    requestAnimationFrame(trackingLoop);
 
-        let currentPosition = ctrack.getCurrentPosition();
-        overlayCC.clearRect(0, 0, 400, 300);
+    let currentPosition = ctrack.getCurrentPosition();
+    overlayCC.clearRect(0, 0, 400, 300);
 
-        if (currentPosition) {
-            ctrack.draw(overlay);
-        }
-
-        if (currentPosition) {
-            // Draw facial mask on overlay canvas:
-            ctrack.draw(overlay);
-
-            // Get the eyes rectangle and draw it in red:
-            const eyesRect = getEyesRectangle(currentPosition);
-            overlayCC.strokeStyle = 'red';
-            overlayCC.strokeRect(eyesRect[0], eyesRect[1], eyesRect[2], eyesRect[3]);
-
-            // The video might internally have a different size, so we need these
-            // factors to rescale the eyes rectangle before cropping:
-            const resizeFactorX = video.videoWidth / video.width;
-            const resizeFactorY = video.videoHeight / video.height;
-
-            // Crop the eyes from the video and paste them in the eyes canvas:
-            const eyesCanvas = $('#eyes')[0];
-            const eyesCC = eyesCanvas.getContext('2d');
-
-            eyesCC.drawImage(
-                video,
-                eyesRect[0] * resizeFactorX, eyesRect[1] * resizeFactorY,
-                eyesRect[2] * resizeFactorX, eyesRect[3] * resizeFactorY,
-                0, 0, eyesCanvas.width, eyesCanvas.height
-            );
-        }
+    if (currentPosition) {
+        ctrack.draw(overlay);
     }
 
-    function onStreaming(stream) {
-        video.srcObject = stream;
-        ctrack.start(video);
-        trackingLoop()
-    }
+    if (currentPosition) {
+        // Draw facial mask on overlay canvas:
+        ctrack.draw(overlay);
 
-    navigator.mediaDevices.getUserMedia({ video: true }).then(onStreaming);
-});
+        // Get the eyes rectangle and draw it in red:
+        const eyesRect = getEyesRectangle(currentPosition);
+        overlayCC.strokeStyle = 'red';
+        overlayCC.strokeRect(eyesRect[0], eyesRect[1], eyesRect[2], eyesRect[3]);
+
+        // The video might internally have a different size, so we need these
+        // factors to rescale the eyes rectangle before cropping:
+        const resizeFactorX = video.videoWidth / video.width;
+        const resizeFactorY = video.videoHeight / video.height;
+
+        // Crop the eyes from the video and paste them in the eyes canvas:
+        const eyesCanvas = $('#eyes')[0];
+        const eyesCC = eyesCanvas.getContext('2d');
+
+        eyesCC.drawImage(
+            video,
+            eyesRect[0] * resizeFactorX, eyesRect[1] * resizeFactorY,
+            eyesRect[2] * resizeFactorX, eyesRect[3] * resizeFactorY,
+            0, 0, eyesCanvas.width, eyesCanvas.height
+        );
+    }
+}
+
+function onStreaming(stream) {
+    video.srcObject = stream;
+    ctrack.start(video);
+    trackingLoop()
+}
+
+navigator.mediaDevices.getUserMedia({ video: true }).then(onStreaming);
+
 
 function getEyesRectangle(positions) {
     const minX = positions[23][0] - 5;
@@ -76,7 +75,7 @@ function getImage() {
     });
 }
 
-let dataset = {
+window.dataset = {
     train: {
         n: 0,
         x: null,
@@ -114,7 +113,6 @@ function captureExample() {
         // Increase counter
         subset.n += 1;
     });
-    console.log(dataset)
 
     $('#nt').text(dataset['train']['n']);
     $('#nv').text(dataset['val']['n']);
@@ -140,6 +138,7 @@ const mouse = {
         // Get the mouse position and normalize it to [-1, 1]
         mouse.x = (event.clientX / $(window).width()) * 2 - 1;
         mouse.y = (event.clientY / $(window).height()) * 2 - 1;
+
     },
 }
 
@@ -258,22 +257,40 @@ function openTab(evt, name) {
 
 }
 
-/* function downloadObjectAsJson(exportObj, exportName) {
-    var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportObj));
-    console.log(dataset)
-    console.log(dataStr)
-    var downloadAnchorNode = document.createElement('a');
-    downloadAnchorNode.setAttribute("href", dataStr);
-    downloadAnchorNode.setAttribute("download", exportName + ".json");
-    document.body.appendChild(downloadAnchorNode); // required for firefox
-    downloadAnchorNode.click();
-    downloadAnchorNode.remove();
-} */
+window.setInterval(function() {
+    console.log(is_colliding($('#drive'), $('#target')));
+    if (is_colliding($('#drive'), $('#target'))) {
+        $('#co').css("background-color", "green");
+    } else {
+        $('#co').css("background-color", "red");
+    }
+}, 500);
 
-function download(content, fileName) {
+var is_colliding = function($div1, $div2) {
+    // Div 1 data
+    var d1_offset = $div1.offset();
+    var d1_height = $div1.outerHeight(true);
+    var d1_width = $div1.outerWidth(true);
+    var d1_distance_from_top = d1_offset.top + d1_height;
+    var d1_distance_from_left = d1_offset.left + d1_width;
+
+    // Div 2 data
+    var d2_offset = $div2.offset();
+    var d2_height = $div2.outerHeight(true);
+    var d2_width = $div2.outerWidth(true);
+    var d2_distance_from_top = d2_offset.top + d2_height;
+    var d2_distance_from_left = d2_offset.left + d2_width;
+
+    var not_colliding = (d1_distance_from_top < d2_offset.top || d1_offset.top > d2_distance_from_top || d1_distance_from_left < d2_offset.left || d1_offset.left > d2_distance_from_left);
+
+    // Return whether it IS colliding
+    return !not_colliding;
+};
+
+function download(content, fileName, contentType) {
     const a = document.createElement('a');
     const file = new Blob([content], {
-        type: 'data:text/json;charset=utf-8',
+        type: contentType,
     });
     a.href = URL.createObjectURL(file);
     a.download = fileName;
@@ -281,8 +298,9 @@ function download(content, fileName) {
 }
 
 $('#down').click(function() {
-    download(dataset, 'dataset.json');
-    // downloadObjectAsJson(dataset, 'dataset.json')
+    // const data = dataset.toJSON();
+    const json = JSON.stringify(dataset);
+    download(json, 'dataset.json', 'text/plain');
 });
 
 document.getElementById('contentFile').onchange = function(e) {
@@ -291,8 +309,8 @@ document.getElementById('contentFile').onchange = function(e) {
 
     reader.onload = function() {
         const data = reader.result;
-        const json = JSON.parse(data);
-        dataset.fromJSON(json);
+        // const json = JSON.parse(data);
+        dataset = JSON.parse(data);
         $('#nt').text(dataset['train']['n']);
         $('#nv').text(dataset['val']['n']);
     };
