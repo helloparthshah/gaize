@@ -331,13 +331,28 @@ function onPlayerReady(event) {
     // event.target.playVideo();
 }
 
-var done = false;
+var snd = new Audio("sound.mp3");
+
+function show() {
+    snd.play();
+    $('#text').css('display', 'inline');
+    setTimeout(hide, 5000); // 5 seconds
+}
+
+function hide() {
+    $('#text').css('display', 'none');
+}
 
 function onPlayerStateChange(event) {
-    if (event.data == YT.PlayerState.PLAYING && !done) {
+    if (event.data == YT.PlayerState.PLAYING) {
         var t = 0,
             f = 0;
         console.log('Playing')
+        var r = Math.random() * 10
+        console.log(r)
+        setTimeout(() => {
+            show()
+        }, r * 1000)
         window.setInterval(function() {
             // console.log(is_colliding($('#drive'), $('#target')));
             if (is_colliding($('#drive'), $('#target'))) {
@@ -352,8 +367,8 @@ function onPlayerStateChange(event) {
             window.clearInterval();
             var p = t / (t + f) * 100;
             $('#drive').css('border', 'none');
-            alert(p + '%')
             stopVideo()
+            alert(p + '%')
         }, 15000);
         // done = true;
     }
