@@ -22,13 +22,14 @@
         <div class="dropdown">
             <a class="dropbtn" onclick="openTab(event, 'About')">About Us</a>
     </section>
-    <div>
-        <video id="webcam" width="400" height="300" autoplay></video>
-        <canvas id="overlay" width="400" height="300"></canvas>
-        <canvas id="eyes" width="120" height="50"></canvas>
-    </div>
+
 
     <div id="Train" class="tab">
+        <div style="padding: 20px; ">
+            <video id="webcam" width="400" height="300" autoplay></video>
+            <canvas id="overlay" width="400" height="300"></canvas>
+            <canvas id="eyes" width="120" height="50"></canvas>
+        </div>
         <div class='controls'>
 
             <button id="train" class="button1">Train!</button>
@@ -50,10 +51,14 @@
     </div>
     <div id="About" class="tab">
         <div class='controls'>
+
             <div style="padding: 20px; text-align: justify;">
-                We at Gaize are committed to help our users in variety of fields using eye tracking techniques. By using various machine learning algorithms we came up with a solution to increase the efficiency of our users in daily activities. Our software can also
-                be used in several other fields such as online examination, conducting research etc. Currently, our website showcases the use of our software by giving the users points based on the efficiency of their driving. Firstly, the user needs
-                to train the software by visiting the Train tab and following the instructions there. They can then check their driving efficiency in the Implementation tab.
+                <h1 style="text-align: center;">GAIZE</h1>
+                <p>We at Gaize are committed to help our users in variety of fields using eye tracking techniques. By using various machine learning algorithms we came up with a solution to increase the efficiency of our users in daily activities. Our software
+                    can also be used in several other fields such as online examination, conducting research etc.</p>
+                <p>Currently, our website showcases the use of our software by giving the users points based on the efficiency of their driving. Firstly, the user needs to train the software by visiting the Train tab and following the instructions there.
+                    They can then check their driving efficiency in the Implementation tab.
+                </p>
             </div>
         </div>
     </div>
@@ -64,7 +69,7 @@
         <div id="drive">
             <!-- <iframe id="drive" width="840" height="472.5" src="https://www.youtube.com/embed/U_aDUFdPh7c" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->
         </div>
-        <img id="text" src="textnotif.jpg" height="400" style="display: none;">
+        <img id="text" style="position: absolute; display: none;" src="textnotif.jpg" height="400">
     </div>
 
 
