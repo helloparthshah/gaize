@@ -75,7 +75,7 @@ function getImage() {
     });
 }
 
-window.dataset = {
+var dataset = {
     train: {
         n: 0,
         x: null,
@@ -113,7 +113,7 @@ function captureExample() {
         // Increase counter
         subset.n += 1;
     });
-
+    console.log(dataset)
     $('#nt').text(dataset['train']['n']);
     $('#nv').text(dataset['val']['n']);
 
@@ -258,7 +258,7 @@ function openTab(evt, name) {
 }
 
 window.setInterval(function() {
-    console.log(is_colliding($('#drive'), $('#target')));
+    // console.log(is_colliding($('#drive'), $('#target')));
     if (is_colliding($('#drive'), $('#target'))) {
         $('#co').css("background-color", "green");
     } else {
@@ -298,8 +298,8 @@ function download(content, fileName, contentType) {
 }
 
 $('#down').click(function() {
-    // const data = dataset.toJSON();
-    const json = JSON.stringify(dataset);
+    const data = toJSON();
+    const json = JSON.stringify(data);
     download(json, 'dataset.json', 'text/plain');
 });
 
@@ -309,11 +309,56 @@ document.getElementById('contentFile').onchange = function(e) {
 
     reader.onload = function() {
         const data = reader.result;
-        // const json = JSON.parse(data);
-        dataset = JSON.parse(data);
+        const json = JSON.parse(data);
+        fromJSON(json);
         $('#nt').text(dataset['train']['n']);
         $('#nv').text(dataset['val']['n']);
     };
 
     reader.readAsBinaryString(file);
 }
+
+function toJSON() {
+    const tensorToArray = function(t) {
+        const typedArray = t.dataSync();
+        return Array.prototype.slice.call(typedArray);
+    };
+
+    return {
+        train: {
+            shapes: {
+                x: dataset.train.x.shape,
+                y: dataset.train.y.shape,
+            },
+            n: dataset.train.n,
+            x: tensorToArray(dataset.train.x),
+
+            y: tensorToArray(dataset.train.y),
+        },
+        val: {
+            shapes: {
+                x: dataset.val.x.shape,
+                y: dataset.val.y.shape,
+            },
+            n: dataset.val.n,
+            x: tensorToArray(dataset.val.x),
+
+            y: tensorToArray(dataset.val.y),
+        },
+    };
+};
+
+function fromJSON(data) {
+    dataset.inputWidth = data.inputWidth;
+    dataset.inputHeight = data.inputHeight;
+    dataset.train.n = data.train.n;
+    dataset.train.x = data.train.x && [
+        tf.tensor(data.train.x, data.train.shapes.x),
+    ];
+    dataset.train.y = tf.tensor(data.train.y, data.train.shapes.y);
+    dataset.val.n = data.val.n;
+    dataset.val.x = data.val.x && [
+        tf.tensor(data.val.x, data.val.shapes.x),
+    ];
+    dataset.val.y = tf.tensor(data.val.y, data.val.shapes.y);
+};
