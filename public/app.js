@@ -302,6 +302,22 @@ $('#down').click(function() {
     download(json, 'dataset.json', 'text/plain');
 });
 
+$('#clr').click(function() {
+    dataset = {
+        train: {
+            n: 0,
+            x: null,
+            y: null,
+        },
+        val: {
+            n: 0,
+            x: null,
+            y: null,
+        },
+    };
+    upd();
+});
+
 var tag = document.createElement('script');
 
 tag.src = "https://www.youtube.com/iframe_api";
@@ -432,8 +448,6 @@ function toJSON() {
 };
 
 function fromJSON(data) {
-    dataset.inputWidth = data.inputWidth;
-    dataset.inputHeight = data.inputHeight;
     dataset.train.n = data.train.n;
     dataset.train.x = data.train.x && [
         tf.tensor(data.train.x, data.train.shapes.x),
