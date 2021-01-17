@@ -76,7 +76,7 @@ function getImage() {
     });
 }
 
-const dataset = {
+let dataset = {
     train: {
         n: 0,
         x: null,
@@ -239,3 +239,39 @@ function moveTarget() {
 }
 
 setInterval(moveTarget, 10);
+
+function downloadObjectAsJson(exportObj, exportName) {
+    var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportObj));
+    var downloadAnchorNode = document.createElement('a');
+    downloadAnchorNode.setAttribute("href", dataStr);
+    downloadAnchorNode.setAttribute("download", exportName + ".json");
+    document.body.appendChild(downloadAnchorNode); // required for firefox
+    downloadAnchorNode.click();
+    downloadAnchorNode.remove();
+}
+
+$('#down').click(function() {
+    downloadObjectAsJson(dataset, 'dataset')
+});
+
+document.getElementById('contentFile').onchange = function(evt) {
+    try {
+        let files = evt.target.files;
+        if (!files.length) {
+            alert('No file selected!');
+            return;
+        }
+        let file = files[0];
+        let reader = new FileReader();
+        const self = this;
+        reader.onload = (event) => {
+            console.log(JSON.parse(event.target.result));
+            dataset = JSON.parse(event.target.result);
+            $('#nt').text(dataset['train']['n']);
+            $('#nv').text(dataset['val']['n']);
+        };
+        reader.readAsText(file);
+    } catch (err) {
+        console.error(err);
+    }
+}
