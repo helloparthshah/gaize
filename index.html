@@ -4,11 +4,6 @@
 <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="style.css">
-    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js" crossorigin="anonymous"></script>
-
 </head>
 
 <body>
@@ -17,37 +12,37 @@
             <h1>GAIZE</h1>
         </div>
         <div class="dropdown">
-            <a class="dropbtn" onclick="">Demo</a>
+            <a class="dropbtn" onclick="openTab(event, 'Train')">Train</a>
         </div>
         <div class="dropdown">
-            <a class="dropbtn" onclick="">Implementation</a>
+            <a class="dropbtn" onclick="openTab(event, 'Implementation')">Implementation</a>
         </div>
         <div class="dropdown">
-            <a class="dropbtn" onclick="">About Us</a>
+            <a class="dropbtn" onclick="openTab(event, 'About Us')">About Us</a>
     </section>
-    <!-- <h1 class="title">GAIZE</h1>
-    <div class="tab" width=100%>
-        <button class="tablinks" onclick="openTab(event, 'Train')">Train</button>
-        <button class="tablinks" onclick="openTab(event, 'Implementation')">Implementation</button>
-    </div> -->
-    <!-- <div id="Train" class="tabcontent"> -->
+
     <video id="webcam" width="400" height="300" autoplay></video>
     <canvas id="overlay" width="400" height="300"></canvas>
     <canvas id="eyes" width="120" height="50"></canvas>
 
-
-    <div id='controls'>
-        <div>
-            <button id="train" class="button1">Train!</button>
+    <div id="Train" class="tab">
+        <div id='controls'>
+            <div>
+                <button id="train" class="button1">Train!</button>
+            </div>
+            <div id="nt">0</div>
+            <div id="nv">0</div>
+            <div id="status">0/20</div>
         </div>
-        <div id="nt">0</div>
-        <div id="nv">0</div>
-        <div id="status">0/20</div>
     </div>
 
     <div id="target"></div>
 
-    <div id="Implementation" class="tabcontent" style="text-align:center"></div>
+    <div id="Implementation" class="tab" style="text-align:center">
+        <div>
+            <iframe width="840" height="472.5" src="https://www.youtube.com/embed/7_YVhobF4dw?controls=0&amp;start=54" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+    </div>
 
 
 
@@ -60,14 +55,14 @@
 
         function openTab(evt, name) {
             var i, tabcontent, tablinks;
-            tabcontent = document.getElementsByClassName("tabcontent ");
+            tabcontent = document.getElementsByClassName("tab ");
             for (i = 0; i < tabcontent.length; i++) {
                 tabcontent[i].style.display = "none ";
             }
-            tablinks = document.getElementsByClassName("tablinks ");
+            /* tablinks = document.getElementsByClassName("tablinks ");
             for (i = 0; i < tablinks.length; i++) {
                 tablinks[i].className = tablinks[i].className.replace(" active ", " ");
-            }
+            } */
             document.getElementById(name).style.display = "block ";
             document.getElementById(name).className += ' active '
 
