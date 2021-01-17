@@ -2,100 +2,49 @@
 <html>
 
 <head>
+    <meta charset="utf-8">
     <link rel="stylesheet" href="style.css">
-    <style>
-        body {
-            background-image: url('back.jpg');
-            background-size: cover;
-        }
-        .tab {
-            overflow: hidden;
-            background: transparent;
-            margin: 0px;
-            text-align: center;
-        }
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js" crossorigin="anonymous"></script>
 
-        .tab button {
-            width: 33%;
-            font-size: 17px;
-            text-transform: uppercase;
-            background: #ffffff;
-            padding: 14px 16px;
-            border: 4px solid !important;
-            border-radius: 6px;
-            display: inline-block;
-            transition: all 0.3s ease 0s;
-        }
-        
-        .tab button:hover {
-            color: #494949 !important;
-            border-radius: 50px;
-            transition: all 0.3s ease 0s;
-        }
-        /* Create an active/current tablink class */
-        
-        .tab button.active {
-            background-color: #000000;
-        }
-        /* Style the tab content */
-        
-        .tabcontent {
-            display: none;
-            padding: 6px 12px;
-        }
-
-        .title {
-            width: 97%;
-            font-size: 23px;
-            text-transform: uppercase;
-            background: #ffffff;
-            padding: 5px 16px;
-            display: inline-block;
-            transition: all 0.3s ease 0s;
-            text-align: center;
-        }
-        .button1 {
-            width: 10%;
-            font-size: 17px;
-            text-transform: uppercase;
-            background: #ffffff;
-            padding: 14px 16px;
-            border: 4px solid !important;
-            border-radius: 6px;
-            display: inline-block;
-            transition: all 0.3s ease 0s;
-        }
-        
-        .button1:hover {
-            color: #494949 !important;
-            border-radius: 50px;
-            transition: all 0.3s ease 0s;
-        }
-    </style>
 </head>
 
 <body>
-    <h1 class="title">GAIZE</h1>
+    <section id="nbr" class="navbar">
+        <div style="width: 100%;">
+            <h1>GAIZE</h1>
+        </div>
+        <div class="dropdown">
+            <a class="dropbtn" onclick="">Demo</a>
+        </div>
+        <div class="dropdown">
+            <a class="dropbtn" onclick="">Implementation</a>
+        </div>
+        <div class="dropdown">
+            <a class="dropbtn" onclick="">About Us</a>
+    </section>
+    <!-- <h1 class="title">GAIZE</h1>
     <div class="tab" width=100%>
         <button class="tablinks" onclick="openTab(event, 'Train')">Train</button>
         <button class="tablinks" onclick="openTab(event, 'Implementation')">Implementation</button>
-    </div>
-    <div id="Train" class="tabcontent">
-        <video id="webcam" width="400" height="300" autoplay></video>
-        <canvas id="overlay" width="400" height="300"></canvas>
-        <canvas id="eyes" width="100" height="50"></canvas>
-        
-        <button id="train" class="button1">Train!</button>
+    </div> -->
+    <!-- <div id="Train" class="tabcontent"> -->
+    <video id="webcam" width="400" height="300" autoplay></video>
+    <canvas id="overlay" width="400" height="300"></canvas>
+    <canvas id="eyes" width="100" height="50"></canvas>
 
+
+    <div id='controls'>
         <div>
-            <div id="nt">0</div>
-            <div id="nv">0</div>
-    
-            <div id="status">0/20</div>
-    
+            <button id="train" class="button1">Train!</button>
         </div>
-
+        <div id="nt">0</div>
+        <div id="nv">0</div>
+        <div id="status">0/20</div>
     </div>
+
     <div id="target"></div>
 
     <div id="Implementation" class="tabcontent" style="text-align:center"></div>
@@ -121,7 +70,7 @@
             }
             document.getElementById(name).style.display = "block ";
             document.getElementById(name).className += ' active '
-               
+
         }
     </script>
 </body>
