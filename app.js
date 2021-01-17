@@ -351,9 +351,10 @@ function onPlayerStateChange(event) {
         setTimeout(() => {
             window.clearInterval();
             var p = t / (t + f) * 100;
-            alert(p)
+            $('#drive').css('border', 'none');
+            alert(p + '%')
             stopVideo()
-        }, 5000);
+        }, 15000);
         // done = true;
     }
 }
