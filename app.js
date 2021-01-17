@@ -113,9 +113,8 @@ function captureExample() {
         // Increase counter
         subset.n += 1;
     });
-    console.log(dataset)
-    $('#nt').text(dataset['train']['n']);
-    $('#nv').text(dataset['val']['n']);
+    // console.log(dataset)
+    upd();
 
 }
 
@@ -201,7 +200,7 @@ function fitModel() {
         callbacks: {
             onEpochEnd: async function(epoch, logs) {
                 n++;
-                $('#status').text(n + '/20');
+                $('#status').text("Epochs: " + n + '/20');
             }
         }
     }).then(info => {
@@ -386,11 +385,15 @@ document.getElementById('contentFile').onchange = function(e) {
         const data = reader.result;
         const json = JSON.parse(data);
         fromJSON(json);
-        $('#nt').text(dataset['train']['n']);
-        $('#nv').text(dataset['val']['n']);
+        upd();
     };
 
     reader.readAsBinaryString(file);
+}
+
+function upd() {
+    $('#nt').text("Train: " + dataset['train']['n']);
+    $('#nv').text("Validation: " + dataset['val']['n']);
 }
 
 function toJSON() {
