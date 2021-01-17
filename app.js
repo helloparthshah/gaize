@@ -260,9 +260,9 @@ function openTab(evt, name) {
 window.setInterval(function() {
     // console.log(is_colliding($('#drive'), $('#target')));
     if (is_colliding($('#drive'), $('#target'))) {
-        $('#co').css("background-color", "green");
+        $('#drive').css('border', '5px solid green');
     } else {
-        $('#co').css("background-color", "red");
+        $('#drive').css('border', '5px solid red');
     }
 }, 500);
 
