@@ -114,6 +114,7 @@ function captureExample() {
         // Increase counter
         subset.n += 1;
     });
+    console.log(dataset)
 
     $('#nt').text(dataset['train']['n']);
     $('#nv').text(dataset['val']['n']);
@@ -240,38 +241,61 @@ function moveTarget() {
 
 setInterval(moveTarget, 10);
 
-function downloadObjectAsJson(exportObj, exportName) {
+openTab(event, 'Train');
+
+function openTab(evt, name) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tab ");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none ";
+    }
+    /* tablinks = document.getElementsByClassName("tablinks ");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active ", " ");
+    } */
+    document.getElementById(name).style.display = "block ";
+    document.getElementById(name).className += ' active '
+
+}
+
+/* function downloadObjectAsJson(exportObj, exportName) {
     var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportObj));
+    console.log(dataset)
+    console.log(dataStr)
     var downloadAnchorNode = document.createElement('a');
     downloadAnchorNode.setAttribute("href", dataStr);
     downloadAnchorNode.setAttribute("download", exportName + ".json");
     document.body.appendChild(downloadAnchorNode); // required for firefox
     downloadAnchorNode.click();
     downloadAnchorNode.remove();
+} */
+
+function download(content, fileName) {
+    const a = document.createElement('a');
+    const file = new Blob([content], {
+        type: 'data:text/json;charset=utf-8',
+    });
+    a.href = URL.createObjectURL(file);
+    a.download = fileName;
+    a.click();
 }
 
 $('#down').click(function() {
-    downloadObjectAsJson(dataset, 'dataset')
+    download(dataset, 'dataset.json');
+    // downloadObjectAsJson(dataset, 'dataset.json')
 });
 
-document.getElementById('contentFile').onchange = function(evt) {
-    try {
-        let files = evt.target.files;
-        if (!files.length) {
-            alert('No file selected!');
-            return;
-        }
-        let file = files[0];
-        let reader = new FileReader();
-        const self = this;
-        reader.onload = (event) => {
-            console.log(JSON.parse(event.target.result));
-            dataset = JSON.parse(event.target.result);
-            $('#nt').text(dataset['train']['n']);
-            $('#nv').text(dataset['val']['n']);
-        };
-        reader.readAsText(file);
-    } catch (err) {
-        console.error(err);
-    }
+document.getElementById('contentFile').onchange = function(e) {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+
+    reader.onload = function() {
+        const data = reader.result;
+        const json = JSON.parse(data);
+        dataset.fromJSON(json);
+        $('#nt').text(dataset['train']['n']);
+        $('#nv').text(dataset['val']['n']);
+    };
+
+    reader.readAsBinaryString(file);
 }
