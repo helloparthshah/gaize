@@ -25,7 +25,7 @@ canvas {
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    /* top: 50%; */
+    top: 50%;
     left: 50%;
     height: 500px;
     width: 400px;
