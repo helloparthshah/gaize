@@ -14,7 +14,7 @@ canvas {
     transform: scaleX(-1);
 }
 
-#controls {
+.controls {
     position: absolute;
     display: flex;
     align-items: center;
