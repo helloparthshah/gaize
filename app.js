@@ -257,14 +257,14 @@ function openTab(evt, name) {
 
 }
 
-window.setInterval(function() {
+/* window.setInterval(function() {
     // console.log(is_colliding($('#drive'), $('#target')));
     if (is_colliding($('#drive'), $('#target'))) {
         $('#drive').css('border', '5px solid green');
     } else {
         $('#drive').css('border', '5px solid red');
     }
-}, 500);
+}, 500); */
 
 var is_colliding = function($div1, $div2) {
     // Div 1 data
@@ -302,6 +302,66 @@ $('#down').click(function() {
     const json = JSON.stringify(data);
     download(json, 'dataset.json', 'text/plain');
 });
+
+var tag = document.createElement('script');
+
+tag.src = "https://www.youtube.com/iframe_api";
+var firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+var player;
+
+function onYouTubeIframeAPIReady() {
+    player = new YT.Player('drive', {
+        height: '472.5',
+        width: '840',
+        videoId: '8BdSzXQ6fCU',
+        playerVars: {
+            start: 441,
+            controls: 0,
+        },
+        events: {
+            'onReady': onPlayerReady,
+            'onStateChange': onPlayerStateChange
+        }
+    });
+}
+
+function onPlayerReady(event) {
+    // event.target.playVideo();
+}
+
+var done = false;
+
+function onPlayerStateChange(event) {
+    if (event.data == YT.PlayerState.PLAYING && !done) {
+        var t = 0,
+            f = 0;
+        console.log('Playing')
+        window.setInterval(function() {
+            // console.log(is_colliding($('#drive'), $('#target')));
+            if (is_colliding($('#drive'), $('#target'))) {
+                $('#drive').css('border', '5px solid green');
+                t++;
+            } else {
+                $('#drive').css('border', '5px solid red');
+                f++;
+            }
+        }, 500);
+        setTimeout(() => {
+            window.clearInterval();
+            var p = t / (t + f) * 100;
+            $('#drive').css('border', 'none');
+            alert(p + '%')
+            stopVideo()
+        }, 15000);
+        // done = true;
+    }
+}
+
+function stopVideo() {
+    player.stopVideo();
+}
 
 document.getElementById('contentFile').onchange = function(e) {
     const file = e.target.files[0];
