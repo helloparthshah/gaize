@@ -8,6 +8,10 @@
     transition: all 1s;
 }
 
+body {
+    background-color: #222D39;
+}
+
 video,
 canvas {
     -webkit-transform: scaleX(-1);
@@ -44,7 +48,7 @@ canvas {
 }
 
 #target {
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: rgba(255, 255, 255, 0.4);
     position: absolute;
     border-radius: 50%;
     height: 40px;
@@ -70,7 +74,7 @@ canvas {
 }
 
 #nbr {
-    background-color: white;
+    background-color: #2A3440;
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
     height: 80px;
 }
@@ -90,6 +94,7 @@ canvas {
     font-family: inherit;
     transition: 0.5s;
     cursor: pointer;
+    color: rgba(255, 255, 255, 0.8);
 }
 
 .dropdown:hover .dropbtn {
