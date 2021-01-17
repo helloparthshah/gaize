@@ -45,11 +45,30 @@
     <div id="target"></div>
 
     <div id="Implementation" class="tab" style="text-align:center">
-        <div>
+        <input type="button" value="Show" onclick="show()">
+        <div >
+            
             <iframe id="drive" width="840" height="472.5" src="https://www.youtube.com/embed/U_aDUFdPh7c" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <img id="text" src="textnotif.jpg" height="400" style="display: none;">
         </div>
+        
+    <div>
+        
     </div>
 
+
+    </div>
+    <script>
+        var snd = new Audio("sound.mp3");
+        function show() {
+            snd.play();
+            document.getElementById("text").style.display = "inline";
+            setTimeout("hide()", 5000);  // 5 seconds
+        }
+        function hide() {
+            document.getElementById("text").style.display = "none";
+        }
+    </script>
 
 
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
