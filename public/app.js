@@ -347,11 +347,16 @@ function onPlayerStateChange(event) {
         var t = 0,
             f = 0;
         console.log('Playing')
-        var r = Math.random() * 10
+        var r1 = Math.random() * 26
+        var r2 = Math.random() * 56 + 30
+
         console.log(r)
         setTimeout(() => {
             show()
-        }, r * 1000)
+        }, r1 * 1000)
+        setTimeout(() => {
+            show()
+        }, r2 * 1000)
         window.setInterval(function() {
             // console.log(is_colliding($('#drive'), $('#target')));
             if (is_colliding($('#drive'), $('#target'))) {
@@ -368,7 +373,7 @@ function onPlayerStateChange(event) {
             $('#drive').css('border', 'none');
             stopVideo()
             alert(p + '%')
-        }, 15000);
+        }, 60000);
         // done = true;
     }
 }
