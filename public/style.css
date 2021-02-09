@@ -12,8 +12,8 @@ body {
     background-color: #222D39;
 }
 
-video,
-canvas {
+#Train video,
+#Train canvas {
     -webkit-transform: scaleX(-1);
     transform: scaleX(-1);
 }
@@ -57,20 +57,15 @@ canvas {
 }
 
 #webcam,
-#overlay {
-    /* position: absolute; */
-    top: 10;
-    left: 20px;
-}
-
-#overlay {
-    position: absolute;
-}
-
+#overlay,
 #eyes {
     position: absolute;
-    /* top: 0; */
+    top: 100px;
     left: 20px;
+}
+
+#overlay {
+    position: absolute;
 }
 
 #nbr {
@@ -107,7 +102,7 @@ canvas {
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    /* position: fixed; */
+    position: fixed;
     top: 0;
     width: 100%;
     z-index: 999;

@@ -8,6 +8,12 @@
 </head>
 
 <body>
+
+    <div class="heatmap-wrapper" style="position: absolute;">
+        <div class="heatmap" style="height: 100vh; width: 100vw; ">
+        </div>
+    </div>
+
     <section id="nbr" class="navbar">
         <div style="width: 100%;">
             <!-- <h1>GAIZE</h1> -->
@@ -22,6 +28,7 @@
         <div class="dropdown">
             <a class="dropbtn" onclick="openTab(event, 'About')">About Us</a>
     </section>
+
 
 
     <div id="Train" class="tab">
@@ -80,11 +87,14 @@
 
 
 
+
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="heatmap1.min.js"></script>
     <!-- <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.5.0"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs/dist/tf.min.js"></script>
     <script src="clmtrackr.js"></script>
     <script src="app.js"></script>
+
 </body>
 
 </html>
