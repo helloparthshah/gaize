@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css?family=Roboto|Source+Code+Pro" rel="stylesheet">
+    <title>Gaize</title>
 </head>
 
 <body>
@@ -31,7 +32,7 @@
 
 
 
-    <div id="Train" class="tab">
+    <div id="Train" class="tab" style="height: 0;">
         <div style="padding: 20px; ">
             <video id="webcam" width="400" height="300" autoplay></video>
             <canvas id="overlay" width="400" height="300"></canvas>
@@ -82,9 +83,39 @@
         </div>
     </div>
 
-    <div id="target"></div>
 
 
+    <!-- <div id="target">
+
+    </div> -->
+
+    <div id="target" class="cursor">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+    </div>
+
+    <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+        <defs>
+          <filter id="filter-name">
+            <feGaussianBlur
+              in="SourceGraphic"
+              stdDeviation="15"
+              result="my-blur" />
+            <feColorMatrix
+              in="my-blur"
+              mode="matrix"
+              values="
+                      1 0 0 0 0
+                      0 1 0 0 0
+                      0 0 1 0 0
+                      0 0 0 20 -8"
+              result="my-gooey" />
+          </filter>
+        </defs>
+      </svg>
 
 
 

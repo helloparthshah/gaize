@@ -47,14 +47,15 @@ body {
     padding: 5px;
 }
 
-#target {
+
+/* #target {
     background-color: rgba(255, 255, 255, 0.4);
     position: absolute;
     border-radius: 50%;
     height: 40px;
     width: 40px;
-    /* transition: all 0.01s ease-in-out; */
 }
+ */
 
 #webcam,
 #overlay,
@@ -156,4 +157,59 @@ body {
 .btn:hover {
     background-color: rgba(66, 133, 246, 0.8);
     box-shadow: 0px 0px 0px;
+}
+
+.cursor {
+    width: 80px;
+    height: 80px;
+    position: absolute;
+    z-index: 999;
+    /* overflow: hidden; */
+    -webkit-filter: url("#filter-name");
+    filter: url("#filter-name");
+    /* top: 50vh; */
+}
+
+.dot {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    top: 50%;
+    left: 50%;
+    margin-top: -40px;
+    margin-left: -40px;
+    background: #EEEEEE;
+    border-radius: 40px;
+    transition: ease .01s;
+    pointer-events: none;
+}
+
+.dot:nth-child(5) {
+    background: #9C27B0;
+    /* transition: ease .1s; */
+    transform: scale(1);
+}
+
+.dot:nth-child(4) {
+    background: #B037AD;
+    transition: ease .14s;
+    transform: scale(.8);
+}
+
+.dot:nth-child(3) {
+    background: #C245AA;
+    transition: ease .18s;
+    transform: scale(.6);
+}
+
+.dot:nth-child(2) {
+    background: #D252A7;
+    transition: ease .22s;
+    transform: scale(.4);
+}
+
+.dot:nth-child(1) {
+    background: #E35FA4;
+    transition: ease .26s;
+    transform: scale(.2);
 }

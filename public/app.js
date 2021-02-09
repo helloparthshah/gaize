@@ -270,6 +270,7 @@ function fitModel() {
     });
 }
 
+
 $('#train').click(function() {
     fitModel();
 });
@@ -292,9 +293,14 @@ function moveTarget() {
             const y = ((prediction[1] + 1) / 2) * ($(window).height() - targetHeight);
 
             // Move target there:
-            const $target = $('#target');
+            /* const $target = $('#target');
             $target.css('left', x + 'px');
-            $target.css('top', y + 'px');
+            $target.css('top', y + 'px'); */
+            o = $('#target').offset();
+            $(".dot").css({
+                "top": y - o.top,
+                "left": x - o.left
+            });
 
             // Add data to the heatmap
             if (idleTimeout) clearTimeout(idleTimeout);
@@ -314,7 +320,18 @@ function moveTarget() {
     });
 }
 
-setInterval(moveTarget, 10);
+setInterval(moveTarget, 1);
+
+
+/* $(document).mousemove(function(e) {
+    //Get 'container' offset:
+    o = $('.cursor').offset();
+    //Track mouse position:
+    $(".dot").css({
+        "top": e.pageY - o.top,
+        "left": e.pageX - o.left
+    });
+}); */
 
 openTab(event, 'Train');
 
