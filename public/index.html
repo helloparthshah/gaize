@@ -34,7 +34,7 @@
 
     <div id="Train" class="tab" style="height: 0;">
         <div style="padding: 20px; ">
-            <video id="webcam" width="400" height="300" autoplay></video>
+            <video id="webcam" width="400" height="300" autoplay style="display: none;"></video>
             <canvas id="overlay" width="400" height="300"></canvas>
             <canvas id="eyes" width="120" height="50"></canvas>
         </div>
@@ -132,6 +132,7 @@
     <!-- Alternatively you can use the WASM backend: <script src="https://unpkg.com/@tensorflow/tfjs-backend-wasm@2.4.0/dist/tf-backend-wasm.js"></script> -->
     <!-- Adds the WebGL backend to the global backend registry -->
     <!-- <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-webgl"></script> -->
+    <script src="https://unpkg.com/@tensorflow/tfjs-backend-wasm@2.4.0/dist/tf-backend-wasm.js"></script>
 
     <!-- Require face-landmarks-detection itself. -->
     <script src="https://unpkg.com/@tensorflow-models/face-landmarks-detection@0.0.1/dist/face-landmarks-detection.js"></script>

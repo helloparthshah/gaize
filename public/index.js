@@ -15,11 +15,11 @@ var heatmap = h337.create({
 });
 
 
-var trackData = false;
+/* var trackData = false;
 
-setInterval(function() {
-    trackData = true;
-}, 50);
+// setInterval(function() {
+//     trackData = true;
+// }, 50);
 
 var idleTimeout, idleInterval;
 
@@ -41,7 +41,7 @@ function startIdle() {
     };
     idle();
     idleInterval = setInterval(idle, 1000);
-};
+}; */
 
 async function setupCamera() {
 
@@ -157,7 +157,7 @@ async function pred() {
 }
 
 async function main() {
-    // await tf.setBackend('wasm');
+    await tf.setBackend('webgl');
     await setupCamera();
     // video.play();
 
@@ -343,16 +343,16 @@ function moveTarget() {
             if (idleTimeout) clearTimeout(idleTimeout);
             if (idleInterval) clearInterval(idleInterval);
 
-            if (trackData) {
+            if (true) {
                 lastX = x;
                 lastY = y;
                 heatmap.addData({
                     x: lastX,
                     y: lastY
                 });
-                trackData = false;
+                // trackData = false;
             }
-            idleTimeout = setTimeout(startIdle, 500);
+            // idleTimeout = setTimeout(startIdle, 500);
         });
     });
 }
