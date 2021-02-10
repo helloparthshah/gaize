@@ -64,11 +64,11 @@ function onResults(results) {
                 // console.log(x, y)
                 canvasCtx.beginPath();
                 canvasCtx.arc(x * canvasElement.width, y * canvasElement.height, 1, 0, 3 * Math.PI);
-                canvasCtx.fillStyle = "green";
+                canvasCtx.fillStyle = "aqua";
                 // 468 max
                 // 111-leftbottom 70 278 261
-                if (i == 111 || i == 70 || i == 300 || i == 372)
-                    canvasCtx.fillStyle = "aqua";
+                /* if (i == 111 || i == 70 || i == 300 || i == 372)
+                    canvasCtx.fillStyle = "aqua"; */
                 canvasCtx.fill();
                 i++;
             }
