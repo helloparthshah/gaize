@@ -15,11 +15,11 @@ var heatmap = h337.create({
 });
 
 
-/* var trackData = false;
+var trackData = false;
 
-// setInterval(function() {
-//     trackData = true;
-// }, 50);
+setInterval(function() {
+    trackData = true;
+}, 100);
 
 var idleTimeout, idleInterval;
 
@@ -41,7 +41,30 @@ function startIdle() {
     };
     idle();
     idleInterval = setInterval(idle, 1000);
-}; */
+};
+
+
+/* $(document).mousemove(function(e) {
+    const $target = $('#target');
+    $target.css('left', e.pageX + 'px');
+    $target.css('top', e.pageY + 'px');
+    // Add data to the heatmap
+    if (idleTimeout) clearTimeout(idleTimeout);
+    if (idleInterval) clearInterval(idleInterval);
+
+    if (trackData) {
+        lastX = e.pageX;
+        lastY = e.pageY;
+        heatmap.addData({
+            x: lastX,
+            y: lastY
+        });
+        trackData = false;
+    }
+    idleTimeout = setTimeout(startIdle, 500);
+}); */
+
+
 
 async function setupCamera() {
 
@@ -343,16 +366,16 @@ function moveTarget() {
             if (idleTimeout) clearTimeout(idleTimeout);
             if (idleInterval) clearInterval(idleInterval);
 
-            if (true) {
+            if (trackData) {
                 lastX = x;
                 lastY = y;
                 heatmap.addData({
                     x: lastX,
                     y: lastY
                 });
-                // trackData = false;
+                trackData = false;
             }
-            // idleTimeout = setTimeout(startIdle, 500);
+            idleTimeout = setTimeout(startIdle, 500);
         });
     });
 }
