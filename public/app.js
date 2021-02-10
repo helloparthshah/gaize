@@ -1,9 +1,3 @@
-// var body = $('body');
-// var hmEl = $('.heatmap-wrapper');
-
-// hmEl.css('width', body.width());
-// hmEl.css('height', '100vh');
-
 var hm = document.querySelector('.heatmap');
 
 var heatmap = h337.create({
@@ -40,26 +34,6 @@ function startIdle() {
     idleInterval = setInterval(idle, 1000);
 };
 
-
-
-/* document.onmousemove = function(ev) {
-    // console.log(ev)
-    if (idleTimeout) clearTimeout(idleTimeout);
-    if (idleInterval) clearInterval(idleInterval);
-
-    if (trackData) {
-        lastX = ev.clientX;
-        lastY = ev.clientY;
-        heatmap.addData({
-            x: lastX,
-            y: lastY
-        });
-        trackData = false;
-    }
-    idleTimeout = setTimeout(startIdle, 500);
-}; */
-
-
 const video = $('#webcam')[0];
 const ctrack = new clm.tracker();
 ctrack.init();
@@ -67,7 +41,116 @@ ctrack.init();
 const overlay = $('#overlay')[0];
 const overlayCC = overlay.getContext('2d');
 
-function trackingLoop() {
+const videoElement = $('#webcam')[0];
+const canvasElement = $('#overlay')[0];
+const canvasCtx = canvasElement.getContext('2d');
+
+var test, test2;
+
+function onResults(results) {
+    canvasCtx.save();
+    canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
+    // test2 = results.image;
+    canvasCtx.drawImage(
+        results.image, 0, 0, canvasElement.width, canvasElement.height);
+
+    if (results.multiFaceLandmarks) {
+        for (const landmarks of results.multiFaceLandmarks) {
+            var i = 0;
+            test = landmarks;
+            for (var l of landmarks) {
+                const x = l['x'];
+                const y = l['y'];
+                // console.log(x, y)
+                canvasCtx.beginPath();
+                canvasCtx.arc(x * canvasElement.width, y * canvasElement.height, 1, 0, 3 * Math.PI);
+                canvasCtx.fillStyle = "green";
+                // 468 max
+                // 111-leftbottom 70 278 261
+                if (i == 111 || i == 70 || i == 300 || i == 372)
+                    canvasCtx.fillStyle = "aqua";
+                canvasCtx.fill();
+                i++;
+            }
+            // const eyesRect = getEyesRectangle(currentPosition);
+            overlayCC.strokeStyle = 'red';
+            overlayCC.strokeRect(landmarks[111]['x'] * canvasElement.width, landmarks[111]['y'] * canvasElement.height,
+                (landmarks[372]['x'] - landmarks[111]['x']) * canvasElement.width, (landmarks[70]['y'] - landmarks[111]['y']) * canvasElement.height);
+
+            // The video might internally have a different size, so we need these
+            // factors to rescale the eyes rectangle before cropping:
+            const resizeFactorX = video.videoWidth / video.width;
+            const resizeFactorY = video.videoHeight / video.height;
+
+            // // Crop the eyes from the video and paste them in the eyes canvas:
+            const eyesCanvas = $('#eyes')[0];
+            const eyesCC = eyesCanvas.getContext('2d');
+
+            eyesCC.drawImage(
+                video,
+                landmarks[111]['x'] * canvasElement.width * resizeFactorX, landmarks[111]['y'] * canvasElement.height * resizeFactorY,
+                (landmarks[372]['x'] - landmarks[111]['x']) * canvasElement.width * resizeFactorX, (landmarks[70]['y'] - landmarks[111]['y']) * canvasElement.height * resizeFactorY,
+                0, 0, eyesCanvas.width, eyesCanvas.height
+            );
+        }
+    }
+    canvasCtx.restore();
+}
+
+
+
+const faceMesh = new FaceMesh({
+    locateFile: (file) => {
+        return `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh@0.1/${file}`;
+    }
+});
+faceMesh.onResults(onResults);
+
+// Instantiate a camera. We'll feed each frame we receive into the solution.
+const camera = new Camera(videoElement, {
+    onFrame: async() => {
+        await faceMesh.send({ image: videoElement });
+    },
+    width: 400,
+    height: 300
+});
+
+camera.start();
+
+/* $('#overlay').mousemove(function(e) {
+    canvasCtx.save();
+    canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
+    canvasCtx.drawImage(
+        test2, 0, 0, canvasElement.width, canvasElement.height);
+
+
+    // console.log((e.screenX - 20) / 400, (e.screenY - 210) / 300)
+    var a = (e.screenX - 20) / 400;
+    var b = (e.screenY - 210) / 300;
+    var i = 0;
+
+    for (var l of test) {
+        const x = l['x'];
+        const y = l['y'];
+        // console.log(x, y)
+        canvasCtx.beginPath();
+        canvasCtx.arc(x * canvasElement.width, y * canvasElement.height, 1, 0, 3 * Math.PI);
+        canvasCtx.fillStyle = "green";
+        // 468 max
+        // 329 437 453 465
+        if (x.toFixed(2) == a.toFixed(2) && y.toFixed(2) == b.toFixed(2)) {
+            canvasCtx.fillStyle = "aqua";
+            console.log(i)
+        }
+        canvasCtx.fill();
+        i++;
+    }
+    canvasCtx.restore();
+
+}); */
+
+
+/* function trackingLoop() {
 
     requestAnimationFrame(trackingLoop);
 
@@ -111,7 +194,7 @@ function onStreaming(stream) {
     trackingLoop()
 }
 
-navigator.mediaDevices.getUserMedia({ video: true }).then(onStreaming);
+navigator.mediaDevices.getUserMedia({ video: true }).then(onStreaming); */
 
 
 function getEyesRectangle(positions) {
@@ -293,14 +376,14 @@ function moveTarget() {
             const y = ((prediction[1] + 1) / 2) * ($(window).height() - targetHeight);
 
             // Move target there:
-            /* const $target = $('#target');
+            const $target = $('#target');
             $target.css('left', x + 'px');
-            $target.css('top', y + 'px'); */
-            o = $('#target').offset();
-            $(".dot").css({
-                "top": y - o.top,
-                "left": x - o.left
-            });
+            $target.css('top', y + 'px');
+            /*  o = $('#target').offset();
+             $(".dot").css({
+                 "top": y - o.top,
+                 "left": x - o.left
+             }); */
 
             // Add data to the heatmap
             if (idleTimeout) clearTimeout(idleTimeout);
@@ -320,7 +403,7 @@ function moveTarget() {
     });
 }
 
-setInterval(moveTarget, 1);
+setInterval(moveTarget, 10);
 
 
 /* $(document).mousemove(function(e) {
