@@ -10,7 +10,7 @@
 
 <body>
 
-    <div class="heatmap-wrapper" style="position: absolute;">
+    <div class="heatmap-wrapper" style="position: absolute; pointer-events: none; z-index: 999;">
         <div class="heatmap" style="height: 100vh; width: 100vw; ">
         </div>
     </div>
@@ -51,6 +51,8 @@
                 <button class="btn"><label for="contentFile">Upload</label></button>
                 <input id="contentFile" style="display: none;" type="file" accept="application/json" />
             </div>
+            <button id="clrhm" class="btn" style="margin-top: 20px; width: 100px;">Clear Heatmap</button>
+
             <div style="padding: 20px; text-align: justify;">
                 Collect data points by moving your mouse over the screen, following the cursor with your eyes and hitting the space key repeatedly. Once you have enought data points (We recommend > 60), hit the Train button and wait till it finishes training. The grey
                 circle should start following your eyes around. You can continue pressing space to gather more data points (more the merrier). Once you're satisfied with your results, head on to the Implementation tab to check out one of the demo applications
@@ -60,6 +62,12 @@
     </div>
 
     <div id="Implementation" class="tab" style="text-align: center; top: 50%; left: 50%; transform: translate(-50%, -50%); position: absolute;">
+        <div style=" display: flex;flex-direction: column;justify-content: center;align-items: center;">
+            <div class="search">
+                <input id="vid" type="text" placeholder="Enter video id" name="search">
+                <button id="play" type="submit">Play</button>
+            </div>
+        </div>
         <div id="drive">
             <!-- <iframe id="drive" width="840" height="472.5" src="https://www.youtube.com/embed/U_aDUFdPh7c" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->
         </div>
@@ -99,23 +107,16 @@
 
     <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
         <defs>
-          <filter id="filter-name">
-            <feGaussianBlur
-              in="SourceGraphic"
-              stdDeviation="15"
-              result="my-blur" />
-            <feColorMatrix
-              in="my-blur"
-              mode="matrix"
-              values="
+            <filter id="filter-name">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="15" result="my-blur" />
+                <feColorMatrix in="my-blur" mode="matrix" values="
                       1 0 0 0 0
                       0 1 0 0 0
                       0 0 1 0 0
-                      0 0 0 20 -8"
-              result="my-gooey" />
-          </filter>
+                      0 0 0 20 -8" result="my-gooey" />
+            </filter>
         </defs>
-      </svg>
+    </svg>
 
 
 

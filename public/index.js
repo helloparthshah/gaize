@@ -14,6 +14,10 @@ var heatmap = h337.create({
     radius: 60
 });
 
+$('#clrhm').click(function() {
+    heatmap.setData({ data: [] })
+});
+
 
 var trackData = false;
 
@@ -445,6 +449,7 @@ $('#clr').click(function() {
             y: null,
         },
     };
+    heatmap.setData({ data: [] })
     upd();
 });
 
@@ -455,12 +460,22 @@ var firstScriptTag = document.getElementsByTagName('script')[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
 var player;
+var vId = '8BdSzXQ6fCU';
+
+$('#play').click(function() {
+    try {
+        player.loadVideoById($('#vid').val());
+    } catch (error) {
+        alert(error)
+    }
+    heatmap.setData({ data: [] })
+});
 
 function onYouTubeIframeAPIReady() {
     player = new YT.Player('drive', {
         height: '472.5',
         width: '840',
-        videoId: '8BdSzXQ6fCU',
+        videoId: vId,
         playerVars: {
             start: 441,
             controls: 0,
